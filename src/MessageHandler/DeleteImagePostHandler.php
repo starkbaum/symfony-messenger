@@ -10,6 +10,7 @@ use App\Photo\PhotoFileManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
+class DeleteImagePostHandler implements MessageHandlerInterface
 {
     private $photoManager;
     private $entityManager;
