@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\ImagePost;
+use App\Message\AddPonkaToImage;
 use App\Photo\PhotoPonkaficator;
 use App\Repository\ImagePostRepository;
 use App\Photo\PhotoFileManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -33,8 +36,23 @@ class ImagePostController extends AbstractController
 
     /**
      * @Route("/api/images", methods="POST")
+     * @param Request $request
+     * @param ValidatorInterface $validator
+     * @param PhotoFileManager $photoManager
+     * @param EntityManagerInterface $entityManager
+     * @param PhotoPonkaficator $ponkaficator
+     * @param MessageBusInterface $messageBus
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function create(Request $request, ValidatorInterface $validator, PhotoFileManager $photoManager, EntityManagerInterface $entityManager, PhotoPonkaficator $ponkaficator)
+    public function create(
+        Request $request,
+        ValidatorInterface $validator,
+        PhotoFileManager $photoManager,
+        EntityManagerInterface $entityManager,
+        PhotoPonkaficator $ponkaficator,
+        MessageBusInterface $messageBus
+    )
     {
         /** @var UploadedFile $imageFile */
         $imageFile = $request->files->get('file');
@@ -55,6 +73,9 @@ class ImagePostController extends AbstractController
 
         $entityManager->persist($imagePost);
         $entityManager->flush();
+
+        $message = new AddPonkaToImage();
+        $messageBus->dispatch($message);
 
         /*
          * Start Ponkafication!
