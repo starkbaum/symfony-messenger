@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Message\Command\AddPonkaToImage;
 use App\Message\Command\DeleteImagePost;
+use App\Message\Command\LogEmoji;
 use App\Repository\ImagePostRepository;
 use App\Photo\PhotoFileManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,6 +82,8 @@ class ImagePostController extends AbstractController
             new AmqpStamp('normal'),
         ]);
         dump($messageBus->dispatch($envelope));
+
+        $messageBus->dispatch(new LogEmoji(2));
 
         return $this->toJson($imagePost, 201);
     }
