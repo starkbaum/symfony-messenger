@@ -31,9 +31,12 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: messages_high_priority
+                        name: messages
+                        type: direct
+                        default_publish_routing_key: high
                     queues:
-                        messages_high: ~
+                        messages_high:
+                            binding_keys: [high]
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
