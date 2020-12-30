@@ -25,4 +25,4 @@ framework:
         routing:
             # Route your messages to the transports
             'App\Message\AddPonkaToImage': async_high_priority
-            'App\Message\DeletePhotoFile': async
+            #'App\Message\DeletePhotoFile': async

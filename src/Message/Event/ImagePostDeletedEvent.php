@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Message;
+namespace App\Message\Event;
 
 
-class DeletePhotoFile
+class ImagePostDeletedEvent
 {
     private $filename;
 
@@ -20,4 +20,6 @@ class DeletePhotoFile
     {
         return $this->filename;
     }
+
+
 }
