@@ -6,6 +6,7 @@ namespace App\Messenger;
 
 use App\Message\Command\LogEmoji;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 class ExternalJsonMessengerSerializer implements SerializerInterface
@@ -22,7 +23,12 @@ class ExternalJsonMessengerSerializer implements SerializerInterface
         if (isset($headers['stamps'])) {
             $stamps = unserialize($headers['stamps']);
         }
-        return new Envelope($message, $stamps);
+        $envelope = new Envelope($message, $stamps);
+
+        //needed only if you need this ti be sent through the non-defaul bus
+        $envelope = $envelope->with(new BusNameStamp('command.bus'));
+
+        return $envelope;
     }
 
     public function encode(Envelope $envelope): array
