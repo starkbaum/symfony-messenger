@@ -30,3 +30,4 @@ framework:
             # Route your messages to the transports
             'App\Message\Command\AddPonkaToImage': async_high_priority
             'App\Message\Event\ImagePostDeletedEvent': async
+            #'App\Message\Command\DeleteImagePost': async
