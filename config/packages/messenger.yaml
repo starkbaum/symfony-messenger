@@ -1,12 +1,14 @@
 framework:
     messenger:
-        default_bus: messenger.bus.default
+        default_bus: command.bus
         buses:
-            messenger.bus.default:
+            command.bus:
                 middleware:
                     - App\Messenger\AuditMiddleware
             event.bus:
                 default_middleware: allow_no_handlers
+                middleware:
+                    - App\Messenger\AuditMiddleware
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         failure_transport: failed
 
@@ -25,5 +27,5 @@ framework:
 
         routing:
             # Route your messages to the transports
-            'App\Message\AddPonkaToImage': async_high_priority
+            'App\Message\Command\AddPonkaToImage': async_high_priority
             'App\Message\Event\ImagePostDeletedEvent': async

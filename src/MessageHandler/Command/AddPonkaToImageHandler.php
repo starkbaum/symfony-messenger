@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Command;
 
 
-use App\Message\AddPonkaToImage;
+use App\Message\Command\AddPonkaToImage;
 use App\Photo\PhotoFileManager;
 use App\Photo\PhotoPonkaficator;
 use App\Repository\ImagePostRepository;

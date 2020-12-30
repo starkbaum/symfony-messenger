@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Message;
+namespace App\Message\Command;
 
 
 use App\Entity\ImagePost;
